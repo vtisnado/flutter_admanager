@@ -1,6 +1,6 @@
 import GoogleMobileAds
 
-class InterstitialAd: SwiftFlutterGoogleAdManagerPlugin {
+class InterstitialAd: SwiftFlutterAdManagerPlugin {
     private var interstitialAd: DFPInterstitial?
     private let channel: FlutterMethodChannel!
 

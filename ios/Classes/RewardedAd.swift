@@ -1,7 +1,7 @@
 import Flutter
 import GoogleMobileAds
 
-class RewardedAd: SwiftFlutterGoogleAdManagerPlugin {
+class RewardedAd: SwiftFlutterAdManagerPlugin {
     private let channel: FlutterMethodChannel!
 
     public init(with _: FlutterPluginRegistrar, channel: FlutterMethodChannel) {

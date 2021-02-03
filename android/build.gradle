@@ -1,4 +1,4 @@
-group 'com.ko2ic.fluttergoogleadmanager'
+group 'com.adrianlogue.flutteradmanager'
 version '1.0-SNAPSHOT'
 
 buildscript {

@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_google_ad_manager/ad_size.dart';
-import 'package:flutter_google_ad_manager/test_devices.dart';
+import 'package:flutter_admanager/ad_size.dart';
+import 'package:flutter_admanager/test_devices.dart';
 
 /// Banner Widget of Google Ad Manger.
 class DFPBanner extends StatefulWidget {
@@ -80,12 +80,12 @@ class DFPBannerState extends State<DFPBanner> {
   Widget _build(BuildContext context) {
     if (Platform.isAndroid) {
       return AndroidView(
-        viewType: 'plugins.ko2ic.com/google_ad_manager/banner',
+        viewType: 'plugins.adrianlogue.com/admanager/banner',
         onPlatformViewCreated: _onPlatformViewCreated,
       );
     } else if (Platform.isIOS) {
       return UiKitView(
-        viewType: 'plugins.ko2ic.com/google_ad_manager/banner',
+        viewType: 'plugins.adrianlogue.com/admanager/banner',
         onPlatformViewCreated: _onPlatformViewCreated,
       );
     }
@@ -149,7 +149,7 @@ class DFPBannerViewController {
     this.onAdViewCreated,
     this.customTargeting,
     int id,
-  }) : _channel = MethodChannel('plugins.ko2ic.com/google_ad_manager/banner/$id');
+  }) : _channel = MethodChannel('plugins.adrianlogue.com/admanager/banner/$id');
 
   final MethodChannel _channel;
 

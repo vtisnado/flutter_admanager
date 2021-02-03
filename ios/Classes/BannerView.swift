@@ -7,7 +7,7 @@ class BannerView: NSObject, FlutterPlatformView {
 
     init(frame: CGRect, viewIdentifier viewId: Int64, messenger: FlutterBinaryMessenger) {
         container = UIView(frame: frame)
-        channel = FlutterMethodChannel(name: "plugins.ko2ic.com/google_ad_manager/banner/\(viewId)", binaryMessenger: messenger)
+        channel = FlutterMethodChannel(name: "plugins.adrianlogue.com/admanager/banner/\(viewId)", binaryMessenger: messenger)
 
         super.init()
 
