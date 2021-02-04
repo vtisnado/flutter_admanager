@@ -15,13 +15,17 @@ A new Flutter plugin.
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.dependency 'Google-Mobile-Ads-SDK'
+  s.dependency 'Google-Mobile-Ads-SDK' # , '~> 7.5.0'
   s.static_framework = true
 
   s.pod_target_xcconfig = {
-    'DEFINES_MODULE' => 'YES'
+		'DEFINES_MODULE' => 'YES',
+		# 'ONLY_ACTIVE_ARCH' => 'YES'
 	}
-	
+	# s.user_target_xcconfig = {
+	# 	'ONLY_ACTIVE_ARCH' => 'YES'
+	# } # not recommended
+
   s.ios.deployment_target = '10.0'
 end
 
