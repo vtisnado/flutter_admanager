@@ -34,27 +34,23 @@ class BannerView: NSObject, FlutterPlatformView {
     private func load(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         let argument = call.arguments as! Dictionary<String, Any>
         let isDevelop = argument["isDevelop"] as? Bool ?? false
-        let testDevices = argument["testDevices"] as? [String]
+        // let testDevices = argument["testDevices"] as? [String]
         let adSizesArgument = argument["adSizes"] as! [String]
         let widthsArgument = argument["widths"] as! [Double]
         let heightsArgument = argument["heights"] as! [Double]
         let isPortrait = argument["isPortrait"] as? Bool ?? true
-        let customTargeting = argument["customTargeting"] as? [String: Any]
+        let customTargeting = argument["customTargeting"] as? [String: String]
 
         let adSize = convertToAdSizes(adSizesArgument, widths: widthsArgument, heights: heightsArgument, isPortrait: isPortrait, result: result).first!
 
         let adUnitId = argument["adUnitId"] as! String
 
-        let bannerView = DFPBannerView(adSize: adSize)
-        let request = DFPRequest()
+        let bannerView = GAMBannerView(adSize: adSize)
+        let request = GAMRequest()
         if isDevelop {
             bannerView.adUnitID = "/6499/example/banner"
         } else {
             bannerView.adUnitID = adUnitId
-        }
-
-        if let testDevices = testDevices {
-            request.testDevices = testDevices
         }
 
         bannerView.delegate = self
@@ -69,7 +65,7 @@ class BannerView: NSObject, FlutterPlatformView {
         result(nil)
     }
 
-    private func addBannerViewToView(_ bannerView: DFPBannerView) {
+    private func addBannerViewToView(_ bannerView: GAMBannerView) {
         container.addSubview(bannerView)
 
         bannerView.translatesAutoresizingMaskIntoConstraints = false
@@ -102,12 +98,12 @@ class BannerView: NSObject, FlutterPlatformView {
                 return kGADAdSizeLeaderboard
             case "MEDIUM_RECTANGLE":
                 return kGADAdSizeMediumRectangle
-            case "SMART_BANNER":
-                if isPortrait {
-                    return kGADAdSizeSmartBannerPortrait
-                } else {
-                    return kGADAdSizeSmartBannerLandscape
-                }
+            // case "SMART_BANNER":
+            //     if isPortrait {
+            //         return GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth
+            //     } else {
+            //         return GADLandscapeAnchoredAdaptiveBannerAdSizeWithWidth
+            //     }
             case "CUSTOM":
                 return GADAdSizeFromCGSize(CGSize(width: widths[index], height: heights[index]))
             default:
@@ -120,39 +116,39 @@ class BannerView: NSObject, FlutterPlatformView {
 
 extension BannerView: GADBannerViewDelegate {
     /// Tells the delegate an ad request loaded an ad.
-    func adViewDidReceiveAd(_: GADBannerView) {
+    func bannerViewDidReceiveAd(_: GADBannerView) {
         channel.invokeMethod("onAdLoaded", arguments: nil)
     }
 
     /// Tells the delegate an ad request failed.
-    func adView(_: GADBannerView,
-                didFailToReceiveAdWithError error: GADRequestError) {
+    func bannerView(_: GADBannerView,
+                didFailToReceiveAdWithError error: Error) {
         container.subviews.forEach { view in
             view.removeFromSuperview()
         }
         // container = nil
-        channel.invokeMethod("onAdFailedToLoad", arguments: ["errorCode": error.code])
+        channel.invokeMethod("onAdFailedToLoad", arguments: ["errorCode": "1"])
     }
 
     /// Tells the delegate that a full-screen view will be presented in response
     /// to the user clicking on an ad.
-    func adViewWillPresentScreen(_: GADBannerView) {
-        print(adViewWillPresentScreen) // TODO:
+    func bannerViewWillPresentScreen(_: GADBannerView) {
+        print(bannerViewWillPresentScreen) // TODO:
     }
 
     /// Tells the delegate that the full-screen view will be dismissed.
-    func adViewWillDismissScreen(_: GADBannerView) {
-        print(adViewWillDismissScreen) // TODO:
+    func bannerViewWillDismissScreen(_: GADBannerView) {
+        print(bannerViewWillDismissScreen) // TODO:
     }
 
     /// Tells the delegate that the full-screen view has been dismissed.
-    func adViewDidDismissScreen(_: GADBannerView) {
-        print(adViewDidDismissScreen) // TODO:
+    func bannerViewDidDismissScreen(_: GADBannerView) {
+        print(bannerViewDidDismissScreen) // TODO:
     }
 
     /// Tells the delegate that a user click will open another app (such as
     /// the App Store), backgrounding the current app.
-    func adViewWillLeaveApplication(_: GADBannerView) {
+    func bannerViewWillLeaveApplication(_: GADBannerView) {
         channel.invokeMethod("onAdOpened", arguments: nil)
         channel.invokeMethod("onAdLeftApplication", arguments: nil)
     }
